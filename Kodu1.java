@@ -102,11 +102,11 @@ public class Kodu1 {
         return uus;
     }
 
-    /* Abi. Tagastab massiivi a koopiat, kus on kõik elemndid indeksist 0 kuni (k-1)-ni */
-    public static int[] kopeeriAlgus(int[] a, int k) {
+    /* Abi. Tagastab massiivi koopiat, kus on kõik elemndid indeksist 0 kuni (k-1)-ni */
+    public static int[] kopeeriAlgus(int[] massiiv, int k) {
         int[] uus = new int[k];
         for (int i = 0; i < k; i++)
-            uus[i] = a[i];
+            uus[i] = massiiv[i];
 
         return uus;
     }
