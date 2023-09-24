@@ -9,11 +9,10 @@
  *
  * Kasutatud allikad: 1) https://et.wikipedia.org/wiki/Mullsortimine
  *                    2) https://www.baeldung.com/java-quicksort
- *                    3) Kuidas konfigureerida printimine salvestakse failis:
- *                       https://stackoverflow.com/questions/1994255/how-to-write-console-output-to-a-txt-file
+ *                    3) https://stackoverflow.com/questions/1994255/how-to-write-console-output-to-a-txt-file
  *
- * NB! Suurema sisendi puhul on vaja lisada -Xmx käsuread argument (VM Options).
- * Muidu kiirmeetodis olevad mälu allokeerimised ei mahu
+ * NB! On vaja lisada -Xmx käsurea argument (VM Options).
+ * Muidu toimub StackOverflow suurema sisendi puhul
  *****************************************************************************/
 
 import java.io.FileNotFoundException;
@@ -23,9 +22,6 @@ import java.util.Arrays;
 
 public class Kodu1 {
     public static void main(String[] args) {
-        int[] massiiv;
-        salvestaPrintimisedFailina("tulemused.txt");
-
         /*
         Esiteks, võrdlen ajakulu erijuhtudel. Neid on 3:
         1) Väike sisend (0, 1, 2)
@@ -34,7 +30,10 @@ public class Kodu1 {
         Pärast, võrdlen ajakulu keskmisel juhtudel, kui sisend on juhuslik massiiv.
         Antud koodis iga mõõtmise jaoks teen 10 sämplit, et keerukuse hindamisel arvestada keskmist.
          */
+        int[] massiiv;
+        int suurim_sisend = 10_000;
 
+        salvestaPrintimisedFailina("väiksed.txt");
         /* Erijuht 1. Väiksed suurused */
         System.out.println("[Erijuht 1. n kuulub {0, 1, 2}]");
         System.out.println("[Sisendi suurus (n)\tAeg (ns)]"); // Legend
@@ -43,26 +42,30 @@ public class Kodu1 {
             testiKolmSortimist(massiiv);
         }
 
+
+        salvestaPrintimisedFailina("parim.txt");
         /* Erijuht 2. Parim juht */
-        System.out.println("[Erijuht 2. Sorteeritud");
-        System.out.println("[Sisendi suurus (n)\tAeg (ms)]"); // Legend
-        for (int n = 0; n <= 20_000; n += 100) {
+        System.out.println("[Erijuht 2. Sorteeritud]");
+        System.out.println("[Sisendi suurus (n)\tAeg (ns)]"); // Legend
+        for (int n = 0; n <= suurim_sisend; n += 100) {
             massiiv = massiivKasvavalt(n);
             testiKolmSortimist(massiiv);
         }
 
+        salvestaPrintimisedFailina("halvim.txt");
         /* Erijuht 3. Halvim juht */
-        System.out.println("[Erijuht 3. Sorteeritud kahenevalt");
-        System.out.println("[Sisendi suurus (n)\tAeg (ms)]"); // Legend
-        for (int n = 0; n <= 20_000; n += 100) {
+        System.out.println("[Erijuht 3. Sorteeritud kahenevalt]");
+        System.out.println("[Sisendi suurus (n)\tAeg (ns)]"); // Legend
+        for (int n = 0; n <= suurim_sisend; n += 100) {
             massiiv = massiivKahenevalt(n);
             testiKolmSortimist(massiiv);
         }
 
+        salvestaPrintimisedFailina("keskmine.txt");
         /* Kesmine juht. Juhuslik massiiv lõigust 0st 100ni (k.a) */
-        System.out.println("[Kesmine juht. Juhuslik massiiv");
-        System.out.println("[Sisendi suurus (n)\tAeg (ms)]"); // Legend
-        for (int n = 0; n <= 20_000; n += 100) {
+        System.out.println("[Kesmine juht. Juhuslik massiiv]");
+        System.out.println("[Sisendi suurus (n)\tAeg (ns)]"); // Legend
+        for (int n = 0; n <= suurim_sisend; n += 100) {
             massiiv = massiivJuhuslikult(n, 0, 100);
             testiKolmSortimist(massiiv);
         }
@@ -112,12 +115,7 @@ public class Kodu1 {
     }
 
     /**
-     * Kiirmeetodi abifunktsioon, mis paneb pivot-ist väiksemd elemendid massiivi vasakule ning suuremad paremale.
-     *
-     * @param massiiv    antud kogu massiiv
-     * @param algindeks  massiivi algusosa
-     * @param loppindeks massiivi lõppuosa
-     * @return pivot-i lõppu indeks
+     * Abi. Paneb esimesest elimendist väiksemad vasakule ning suuremad paremale
      */
     private static int jagamine(int[] massiiv, int algindeks, int loppindeks) {
         int pivot = massiiv[loppindeks];
@@ -135,7 +133,7 @@ public class Kodu1 {
     }
 
     /**
-     * Väikeväärtustatud kutse. Ei muuta antud massiivi, vaid tagastab uue
+     * Vaikeväärtustatud kutse. Ei muuta antud massiivi, vaid tagastab uue
      */
     public static int[] kiirmeetod(int[] massiiv) {
         int[] uus = kopeeriAlgus(massiiv, massiiv.length);
@@ -166,27 +164,42 @@ public class Kodu1 {
         int n = massiiv.length;
 
         System.out.println("<Mullimeetod>");
+        System.out.printf("%d: ", n);
         for (int i = 0; i < 10; i++) {
-            start = System.currentTimeMillis();
+            start = System.nanoTime();
             mullimeetod(massiiv);
-            stop = System.currentTimeMillis();
-            System.out.printf("%d\t%d\n", n, (stop - start));
+            stop = System.nanoTime();
+
+            if (i == 9)
+                System.out.printf("%d\n", (stop - start));
+            else
+                System.out.printf("%d, ", (stop - start));
         }
 
         System.out.println("<Kiirmeetod>");
+        System.out.printf("%d: ", n);
         for (int i = 0; i < 10; i++) {
-            start = System.currentTimeMillis();
+            start = System.nanoTime();
             kiirmeetod(massiiv);
-            stop = System.currentTimeMillis();
-            System.out.printf("%d\t%d\n", n, (stop - start));
+            stop = System.nanoTime();
+
+            if (i == 9)
+                System.out.printf("%d\n", (stop - start));
+            else
+                System.out.printf("%d, ", (stop - start));
         }
 
         System.out.println("<java.util.Arrays.sort>");
+        System.out.printf("%d: ", n);
         for (int i = 0; i < 10; i++) {
-            start = System.currentTimeMillis();
+            start = System.nanoTime();
             susteemimeetod(massiiv);
-            stop = System.currentTimeMillis();
-            System.out.printf("%d\t%d\n", n, (stop - start));
+            stop = System.nanoTime();
+
+            if (i == 9)
+                System.out.printf("%d\n", (stop - start));
+            else
+                System.out.printf("%d, ", (stop - start));
         }
     }
 
@@ -214,33 +227,33 @@ public class Kodu1 {
      * Abi. Tagastab massiivi suurusega n, mis on kasvavalt sorteeritud. Alati 0-st N-ni
      */
     public static int[] massiivKasvavalt(int n) {
-        int[] massiiv = new int[n];
+        int[] uus = new int[n];
         for (int i = 0; i < n; i++)
-            massiiv[i] = i;
+            uus[i] = i;
 
-        return massiiv;
+        return uus;
     }
 
     /**
      * Abi. Tagastab massiivi suurusega n, mis on kahenevalt sorteeritud. Aalti (N-1)-st 0-ni
      */
     public static int[] massiivKahenevalt(int n) {
-        int[] massiiv = new int[n];
-        for (int i = 0, j = n - 1; i < massiiv.length; i++, j--)
-            massiiv[i] = j;
+        int[] uus = new int[n];
+        for (int i = 0, j = n - 1; i < uus.length; i++, j--)
+            uus[i] = j;
 
-        return massiiv;
+        return uus;
     }
 
     /**
      * Abi. Tagastab massiivi suurusega n, mille elemendid on suvalised arvud lõigust [min; max] (mõlemad k.a)
      */
     public static int[] massiivJuhuslikult(int n, int min, int max) {
-        int[] m = new int[n];
+        int[] uus = new int[n];
         for (int i = 0; i < n; i++)
-            m[i] = (int) ((Math.random() * (max - min + 1)) + min); // + 1 selleks, et ülemine piir oleks kaasarvatud
+            uus[i] = (int) ((Math.random() * (max - min + 1)) + min); // + 1 selleks, et ülemine piir oleks kaasarvatud
 
-        return m;
+        return uus;
     }
 
     /**
