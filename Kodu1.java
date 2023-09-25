@@ -23,18 +23,18 @@ import java.util.Arrays;
 public class Kodu1 {
     public static void main(String[] args) {
         /*
-        Esiteks, võrdlen ajakulu erijuhtudel. Neid on 3:
+        Esiteks võrdlen ajakulu erijuhtudel. Neid on 3:
         1) Väike sisend (0, 1, 2)
         2) Parim juht (sorteeritud)
         3) Halvim juht (kahenevalt sorteeritud)
-        Pärast, võrdlen ajakulu keskmisel juhtudel, kui sisend on juhuslik massiiv.
-        Antud koodis iga mõõtmise jaoks teen 10 sämplit, et keerukuse hindamisel arvestada keskmist.
+        Pärast võrdlen ajakulu keskmisel juhtudel, kui sisend on juhuslik massiiv.
+        Antud koodis teen iga mõõtmise jaoks 10 sämpli, et keerukuse hindamisel arvestada keskmist.
          */
         int[] massiiv;
-        int suurim_sisend = 10_000;
+        int suurimSuurus = 10_000;
 
-        salvestaPrintimisedFailina("väiksed.txt");
         /* Erijuht 1. Väiksed suurused */
+        salvestaPrintimisedFailina("väiksed.txt");
         System.out.println("[Erijuht 1. n kuulub {0, 1, 2}]");
         System.out.println("[Sisendi suurus (n)\tAeg (ns)]"); // Legend
         for (int n = 0; n <= 2; n++) {
@@ -42,40 +42,39 @@ public class Kodu1 {
             testiKolmSortimist(massiiv);
         }
 
-
-        salvestaPrintimisedFailina("parim.txt");
         /* Erijuht 2. Parim juht */
+        salvestaPrintimisedFailina("parim.txt");
         System.out.println("[Erijuht 2. Sorteeritud]");
         System.out.println("[Sisendi suurus (n)\tAeg (ns)]"); // Legend
-        for (int n = 0; n <= suurim_sisend; n += 100) {
+        for (int n = 0; n <= suurimSuurus; n += 100) {
             massiiv = massiivKasvavalt(n);
             testiKolmSortimist(massiiv);
         }
 
-        salvestaPrintimisedFailina("halvim.txt");
         /* Erijuht 3. Halvim juht */
+        salvestaPrintimisedFailina("halvim.txt");
         System.out.println("[Erijuht 3. Sorteeritud kahenevalt]");
         System.out.println("[Sisendi suurus (n)\tAeg (ns)]"); // Legend
-        for (int n = 0; n <= suurim_sisend; n += 100) {
+        for (int n = 0; n <= suurimSuurus; n += 100) {
             massiiv = massiivKahenevalt(n);
             testiKolmSortimist(massiiv);
         }
 
-        salvestaPrintimisedFailina("keskmine.txt");
         /* Kesmine juht. Juhuslik massiiv lõigust 0st 100ni (k.a) */
+        salvestaPrintimisedFailina("keskmine.txt");
         System.out.println("[Kesmine juht. Juhuslik massiiv]");
         System.out.println("[Sisendi suurus (n)\tAeg (ns)]"); // Legend
-        for (int n = 0; n <= suurim_sisend; n += 100) {
+        for (int n = 0; n <= suurimSuurus; n += 100) {
             massiiv = massiivJuhuslikult(n, 0, 100);
             testiKolmSortimist(massiiv);
         }
     }
 
     /**
-     * Meetod, mis võtab argumendina antud massiivi ja sorteerib tema kasutades mullimeetodi algoritmi.
-     * Printsiib on selline, et me käime vasakult paremale ning võrdleme vaadeldav element järgmisega.
-     * Kui vaadeldav element suurem, kui järgmine, siis vahetame neid (ehk nihutame paremale) nii kaua, kui saab.
-     * Järgmise elemndi puhul sammude arv on ühe (i) võrra väiksem, sest eelmine vaadeldav element on juba lõppus.
+     * Meetod, mis võtab argumendina antud massiivi ja sorteerib selle, kasutades mullimeetodi algoritmi.
+     * Põhimõte on järgmine: me liigume vasakult paremale ja võrdleme hetkel vaadeldavat elementi järgmisega.
+     * Kui hetkel vaadeldav element on suurem kui järgmine, siis vahetame neid (nihe paremale) nii kaua, kui võimalik.
+     * Järgmise elemendi puhul on sammude arv ühe võrra väiksem, sest eelmine vaadeldav element on juba lõpus.
      *
      * @param massiiv - antud, ei muuta
      * @return uus sorteeritud massiiv
@@ -96,11 +95,13 @@ public class Kodu1 {
     }
 
     /**
-     * Meetod, mis võtab argumendina antud massiivi ja sorteerib tema kasutades kiirmeetodi algoritmi.
-     * Printsiib on selline, et me võtame suvaline väärtus, mille järgi me võrleme elemendid (ingl. *pivot*).
-     * Olgu see on viimane. Nüüd me jagame massiivi poleks: vasakule lähevad elemndid temast väiksem, paremale suuremad.
-     * "pivot" jääb keskele, tema järgi rekursiivselt jagame massiivi.
-     * Teeme sama asja rekursiivlest, kasutades vasak ja parem osad.
+     * Meetod, mis võtab argumendina antud massiivi ja sorteerib selle, kasutades kiirmeetodi algoritmi.
+     * Põhimõte on järgmine: me valime suvalise elemendi, mida nimetatakse
+     * "pöördepunktiks" (ingl. pivot), mille järgi me võrdleme teisi elemente.
+     * Olgu see elemend on viimane. Seejärel jagame massiivi kaheks:
+     * vasakule lähevad elemendid, mis on väiksemad kui "pöördepunkt",paremale lähevad suuremad elemendid.
+     * "Pöördepunkt" jääb massiivi keskele ja me jagame massiivi rekursiivselt tema järgi.
+     * Teeme sama protseduuri rekursiivselt, kasutades vasakut ja paremat osa massiivist.
      *
      * @param massiiv    massiiv, mida sorteritakse
      * @param algindeks  massiivi algusosa
@@ -118,15 +119,12 @@ public class Kodu1 {
      * Abi. Paneb esimesest elimendist väiksemad vasakule ning suuremad paremale
      */
     private static int jagamine(int[] massiiv, int algindeks, int loppindeks) {
-        int pivot = massiiv[loppindeks];
+        int poordepunkt = massiiv[loppindeks];
         int i = algindeks - 1;
 
-        for (int j = algindeks; j < loppindeks; j++) {
-            if (massiiv[j] <= pivot) {
-                i++;
-                vaheta(massiiv, i, j);
-            }
-        }
+        for (int j = algindeks; j < loppindeks; j++)
+            if (massiiv[j] <= poordepunkt)
+                vaheta(massiiv, ++i, j);
 
         vaheta(massiiv, i + 1, loppindeks);
         return i + 1;
@@ -143,9 +141,9 @@ public class Kodu1 {
     }
 
     /**
-     * <java.util.Arrays.sort> meetodi modifikatsioon, et ta ei sorteeriks etteantud, vaid tagastab uue.
-     * Põhjuseks on see, et kuna ma tahan teha mitu sämplid, on vaja, et originaal massiiv jääb samaks.
-     * Muidu üks mõõt on õige ja ülejaanud on parima juhu.
+     * <java.util.Arrays.sort> meetodi modifikatsioon, et see ei sorteeri antud massiivi, vaid tagastab uue.
+     * Põhjus seisneb selles, et kuna ma tahan teha mitu sämpli, on oluline, et algne massiiv jääks muutumatuks.
+     * Muidu on üks mõõtmine õige ja ülejäänud parimal juhul.
      *
      * @param massiiv antud, ei muuta
      * @return uus sorteeritud massiiv
@@ -204,7 +202,7 @@ public class Kodu1 {
     }
 
     /**
-     * Abi. Tagastab massiivi koopiat, kus on kõik elemndid indeksist 0 kuni (k-1)-ni
+     * Abi. Tagastab massiivi koopiat, mis sisaldab elemendid indeksist 0 kuni (k-1)-ni
      */
     public static int[] kopeeriAlgus(int[] massiiv, int k) {
         int[] uus = new int[k];
