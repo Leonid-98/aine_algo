@@ -1,3 +1,5 @@
+package Kodu;
+
 /*****************************************************************************
  * Algoritmid ja andmestruktuurid. LTAT.03.005
  * 2023/2024 sügissemester

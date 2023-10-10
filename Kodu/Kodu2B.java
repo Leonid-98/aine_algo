@@ -1,4 +1,4 @@
-/*****************************************************************************
+package Kodu; /*****************************************************************************
  * Algoritmid ja andmestruktuurid. LTAT.03.005
  * 2023/2024 sügissemester
  *
@@ -15,11 +15,11 @@ import java.util.Arrays;
 
 public class Kodu2B {
     public static void main(String[] args) {
-        long[] a = {1, 2, 3, 4};
+        long[] a = {1, 2};
         int p = 4;
-        System.out.println(tükeldused(a, 3));
-        long c = Long.MAX_VALUE;
-        System.out.println(c + c);
+        System.out.println(tükeldused(a, p));
+//        long c = Long.MAX_VALUE;
+//        System.out.println(c + c);
     }
 
     /**
