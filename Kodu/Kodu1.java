@@ -30,44 +30,51 @@ public class Kodu1 {
         Pärast võrdlen ajakulu keskmisel juhtudel, kui sisend on juhuslik massiiv.
         Antud koodis teen iga mõõtmise jaoks 10 sämpli, et keerukuse hindamisel arvestada keskmist.
          */
-        int[] massiiv;
-        int suurimSuurus = 10_000;
 
-        /* Erijuht 1. Väiksed suurused */
-        salvestaPrintimisedFailina("väiksed.txt");
-        System.out.println("[Erijuht 1. n kuulub {0, 1, 2}]");
-        System.out.println("[Sisendi suurus (n)\tAeg (ns)]"); // Legend
-        for (int n = 0; n <= 2; n++) {
-            massiiv = massiivKasvavalt(n); // Väiksema sisendi puhul vahet ei ole, kas sorteeritud või mitte
-            testiKolmSortimist(massiiv);
-        }
-
-        /* Erijuht 2. Parim juht */
-        salvestaPrintimisedFailina("parim.txt");
-        System.out.println("[Erijuht 2. Sorteeritud]");
-        System.out.println("[Sisendi suurus (n)\tAeg (ns)]"); // Legend
-        for (int n = 0; n <= suurimSuurus; n += 100) {
-            massiiv = massiivKasvavalt(n);
-            testiKolmSortimist(massiiv);
-        }
-
-        /* Erijuht 3. Halvim juht */
-        salvestaPrintimisedFailina("halvim.txt");
-        System.out.println("[Erijuht 3. Sorteeritud kahenevalt]");
-        System.out.println("[Sisendi suurus (n)\tAeg (ns)]"); // Legend
-        for (int n = 0; n <= suurimSuurus / 2 ; n += 100) { // Tuleb sisend kaks korda vähendada, muidu StackOverflow
-            massiiv = massiivKahenevalt(n);
-            testiKolmSortimist(massiiv);
-        }
-
-        /* Kesmine juht. Juhuslik massiiv lõigust 0st 100ni (k.a) */
-        salvestaPrintimisedFailina("keskmine.txt");
-        System.out.println("[Kesmine juht. Juhuslik massiiv]");
-        System.out.println("[Sisendi suurus (n)\tAeg (ns)]"); // Legend
-        for (int n = 0; n <= suurimSuurus; n += 100) {
-            massiiv = massiivJuhuslikult(n, 0, 100);
-            testiKolmSortimist(massiiv);
-        }
+//        int[] massiiv;
+//        int suurimSuurus = 10_000;
+//
+//        /* Erijuht 1. Väiksed suurused */
+//        salvestaPrintimisedFailina("väiksed.txt");
+//        System.out.println("[Erijuht 1. n kuulub {0, 1, 2}]");
+//        System.out.println("[Sisendi suurus (n)\tAeg (ns)]"); // Legend
+//        for (int n = 0; n <= 2; n++) {
+//            massiiv = massiivKasvavalt(n); // Väiksema sisendi puhul vahet ei ole, kas sorteeritud või mitte
+//            testiKolmSortimist(massiiv);
+//        }
+//
+//        /* Erijuht 2. Parim juht */
+//        salvestaPrintimisedFailina("parim.txt");
+//        System.out.println("[Erijuht 2. Sorteeritud]");
+//        System.out.println("[Sisendi suurus (n)\tAeg (ns)]"); // Legend
+//        for (int n = 0; n <= suurimSuurus; n += 100) {
+//            massiiv = massiivKasvavalt(n);
+//            testiKolmSortimist(massiiv);
+//        }
+//
+//        /* Erijuht 3. Halvim juht */
+//        salvestaPrintimisedFailina("halvim.txt");
+//        System.out.println("[Erijuht 3. Sorteeritud kahenevalt]");
+//        System.out.println("[Sisendi suurus (n)\tAeg (ns)]"); // Legend
+//        for (int n = 0; n <= suurimSuurus / 2 ; n += 100) { // Tuleb sisend kaks korda vähendada, muidu StackOverflow
+//            massiiv = massiivKahenevalt(n);
+//            testiKolmSortimist(massiiv);
+//        }
+//
+//        /* Kesmine juht. Juhuslik massiiv lõigust 0st 100ni (k.a) */
+//        salvestaPrintimisedFailina("keskmine.txt");
+//        System.out.println("[Kesmine juht. Juhuslik massiiv]");
+//        System.out.println("[Sisendi suurus (n)\tAeg (ns)]"); // Legend
+//        for (int n = 0; n <= suurimSuurus; n += 100) {
+//            massiiv = massiivJuhuslikult(n, 0, 100);
+//            testiKolmSortimist(massiiv);
+//        }
+        char[] x = {'M', 'U', 'L', 'L', 'I', 'M', 'E', 'E', 'T', 'O', 'D'};
+        char[] z = {'E', 'E', 'E', 'I', 'M', 'P', 'S', 'T', 'T', 'O', 'D'};
+//        int[] y = new int[z.length];
+//        for (int i = 0; i < z.length; i++)
+//            y[i] = z[i];
+        mullimeetod(new int[]{1, 5, 4, 2, 8});
     }
 
     /**
@@ -84,14 +91,26 @@ public class Kodu1 {
 
         int suurus = massiiv.length;
         int[] uus = kopeeriAlgus(massiiv, suurus);
-
-        for (int i = 0; i < suurus - 1; i++)
-            for (int j = 0; j < suurus - 1 - i; j++)
+        int loe = 0;
+        for (int i = 0; i < suurus - 1; i++) {
+            System.out.println();
+            for (int j = 0; j < suurus - 1 - i; j++) {
+                System.out.println(uus[j] + " " + uus[j + 1]);
                 if (uus[j] > uus[j + 1]) {
                     vaheta(uus, j, j + 1);
+                    loe++;
                 }
-
+            }
+        }
+        System.out.println(loe);
         return uus;
+    }
+
+    public static char[] printi(int[] x) {
+        char[] y = new char[x.length];
+        for (int i = 0; i < x.length; i++)
+            y[i] = (char) x[i];
+        return y;
     }
 
 

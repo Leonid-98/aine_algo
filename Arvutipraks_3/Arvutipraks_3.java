@@ -5,7 +5,11 @@ import java.util.Deque;
 
 public class Arvutipraks_3 {
     public static void main(String[] args) {
-        System.out.println(palindrom("abb;;;2a"));
+//        System.out.println(palindrom("abb;;;2a"));
+//        for (int i = 0; i < 10; i++) {
+//            System.out.println(fiboMag(i));
+//        }
+
     }
 
     /* Ylesanne 1 */
@@ -32,10 +36,21 @@ public class Arvutipraks_3 {
         return tulemus;
     }
 
-    /* Ylesanne 2 */
+    /* Ylesanne 2a. Magasiniga */
     public static int fiboMag(int n) {
-
-        return 0;
+        int tulemus = 0;
+        Deque<Integer> mag = new ArrayDeque<>();
+        mag.push(n);
+        while (!mag.isEmpty()) {
+            int arv = mag.pop();
+            if (arv <= 1)
+                tulemus += arv;
+            else {
+                mag.push(arv - 1);
+                mag.push(arv - 2);
+            }
+        }
+        return tulemus;
     }
 
 
