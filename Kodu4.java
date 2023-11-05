@@ -177,7 +177,6 @@ public class Kodu4 {
     public static long suurimVahe(long[] massiiv) {
         long min = Long.MAX_VALUE;
         long max = Long.MIN_VALUE;
-        long vahe = -1;
 
         for (long elem : massiiv) {
             if (elem > max)
