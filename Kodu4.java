@@ -69,6 +69,28 @@ public class Kodu4 {
             isikukoodid[i] = teisendaAastakujuIsikukoodiks(isikukoodidAastaKuju[i]);
     }
 
+    /* Abi. Teisendab isikukood kujuks AAAAKKPPJJJEK (aasta, kuu, päev, järjekoranumber, esimene, kontrollnumber) */
+    public static long teisendaIsikukoodAastakujuks(long id) {
+        long esimene = id / 10000000000L;
+        long sajand = 18 + (esimene - 1) / 2; // {18, 19, 20, 21}
+        long lõik = (id / 10) % 1000000000; // arvud "indeksiga" [1-9], i.e "AAKKPPJJJ"
+        long konrollnumber = id % 10;
+
+        id = (sajand * 100000000000L) + (lõik * 100) + (esimene * 10) + konrollnumber;
+        return id;
+    }
+
+    /* Abi. Teisendab kuju AAAAKKPPJJJEK tagasi Isikukoodiks*/
+    public static long teisendaAastakujuIsikukoodiks(long kood) {
+        long konrollnumber = kood % 10;
+        long esimene = (kood / 10) % 10;
+        long lõik = (kood / 100) % 1000000000; // "AAKKPPJJJ"
+
+        kood = (esimene * 10000000000L) + (lõik * 10) + konrollnumber;
+        return kood;
+
+    }
+
     /**
      * Meetod, mis sorteerib antud massiivi positsiooni meetodiga.
      * Sammud on järgmised:
@@ -91,60 +113,37 @@ public class Kodu4 {
      * @param massiiv sorteerime tema
      */
     public static void positsioonimeetod(long[] massiiv) {
-        // 1. Samm
+        // 1. Samm. Loome paisktabeli
         HashMap<Integer, Queue<Long>> paisktabel = new HashMap<>();
         for (int võti = 0; võti < 10; võti++) {
             paisktabel.put(võti, new ArrayDeque<>());
         }
 
-        // 2. Samm
+        // 2. Samm. Alustame madalaima järguühikuga
         long jaarguühik = 1;
         long suurimVahe = suurimVahe(massiiv);
-        System.out.println(suurimVahe);
+
         while (jaarguühik < suurimVahe) {
-            // 3. Samm
+            // 3. Samm. Paiskame massiivi elemendid tabelisse
             for (long elem : massiiv) {
                 int h = (int) (elem / jaarguühik % 10); // Paiskfunktsioon h(k) = floor(k / jaarguühik) % 10
                 Queue<Long> järjekord = paisktabel.get(h);
                 järjekord.add(elem);
             }
 
-            // 4. Samm
+            // 4. Samm. Loeme tabelist elemendid tagasi massiivi
             int i = 0;
             for (Queue<Long> järjekord : paisktabel.values())
                 while (!järjekord.isEmpty())
                     massiiv[i++] = järjekord.remove();
 
-            // 5. Samm
+            // 5. Samm. Suurendame järguühikut
             jaarguühik *= 10; // Arvusüsteemi aluseks on 10
         }
 
-        // 6. Samm
+        // 6. Samm. Leiame koha, kus järjestus on rikutud (kui on)
         kontrolliJärjestust(massiiv);
     }
-
-    /* Abi. Teisendab isikukood kujuks AAAAKKPPJJJEK (aasta, kuu, päev, järjekoranumber, esimene, kontrollnumber) */
-    public static long teisendaIsikukoodAastakujuks(long id) {
-        long esimene = id / 10000000000L;
-        long sajand = 18 + (esimene - 1) / 2; // {18, 19, 20, 21}
-        long lõik = (id / 10) % 1000000000; // arvud "indeksiga" [1-9], i.e "AAKKPPJJJ"
-        long konrollnumber = id % 10;
-
-        id = (sajand * 100000000000L) + (lõik * 100) + (esimene * 10) + konrollnumber;
-        return id;
-    }
-
-    /* Abi. Teisendab kuju AAAAKKPPJJJEK tagasi Isikukoodiks*/
-    public static long teisendaAastakujuIsikukoodiks(long kood) {
-        long konrollnumber = kood % 10;
-        long esimene = (kood / 10) % 10;
-        long lõik = (kood / 100) % 1000000000;
-
-        kood = (esimene * 10000000000L) + (lõik * 10) + konrollnumber;
-        return kood;
-
-    }
-
 
     /* Abi. Juhul, kui massiivi järjestus on rikutud, vahetab osad */
     public static void kontrolliJärjestust(long[] massiiv) {
@@ -172,6 +171,7 @@ public class Kodu4 {
             System.arraycopy(uus, 0, massiiv, 0, massiiv.length);
         }
     }
+
 
     /* Abi. Tagastab vahe suurima ja vähima elemntide vahel */
     public static long suurimVahe(long[] massiiv) {
