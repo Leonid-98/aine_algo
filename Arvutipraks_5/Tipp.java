@@ -19,15 +19,4 @@ public class Tipp {
         this.info = info;
     }
 
-    static void kuvaKahendpuu(Tipp juurTipp) {
-        Dendrologist.drawBinaryTree(juurTipp, t -> t.info, t -> t.v, t -> t.p);
-    }
-
-    static Tipp juhuslikPuu(int n) {
-        if (n == 0) return null;
-        ThreadLocalRandom juhus = ThreadLocalRandom.current();
-        String juhuslikTäht = Character.toString(juhus.nextInt('A', 'Z' + 1));
-        int vasakule = juhus.nextInt(n);
-        return new Tipp(juhuslikTäht, juhuslikPuu(vasakule), juhuslikPuu(n - 1 - vasakule));
-    }
 }

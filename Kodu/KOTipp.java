@@ -1,3 +1,5 @@
+package Kodu;
+
 public class KOTipp {
     int väärtus;
     KOTipp v;
