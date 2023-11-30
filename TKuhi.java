@@ -43,7 +43,24 @@ public class TKuhi {
      */
     @Override
     public String toString() {
-        return kuhi.toString();
+        StringBuilder s = new StringBuilder("[");
+        for (int i = 0; i < kuhi.size(); i++) {
+            Tipp t = kuhi.get(i);
+            s.append(t.info).append("(").append(t.x).append(")");
+
+            if (i == kuhi.size() - 1)
+                s.append("]");
+            else
+                s.append(", ");
+        }
+        return s.toString();
+    }
+
+    /**
+     * Tagastab kuhi elementide arv
+     */
+    public int pikkus() {
+        return kuhi.size();
     }
 
     /**
@@ -112,7 +129,7 @@ public class TKuhi {
      * @param i Elemendi indeks, mille Tippu parasjagu loomas oleme.
      * @return Tipp, mis sisaldab infoväljal kuhja i-ndat elementi, alluvad koostame rekursiooniga.
      */
-    private Tipp teePuukuju(int i) {
+    public Tipp teePuukuju(int i) {
         if (i <= -1 || i >= kuhi.size()) return null; // Kui indeks mõõtmetelt väljas, saame tühja puukuju.
         Tipp vasemAlluv = teePuukuju(vasemIndeks(i)); // Ehitame puu i-nda elemendi vasema haru järgi.
         Tipp paremAlluv = teePuukuju(paremIndeks(i)); // Ehitame puu i-nda elemendi parema haru järgi.
@@ -149,10 +166,10 @@ public class TKuhi {
         Tipp element = kuhi.get(i);
         int alumineIndeks = vasemIndeks(i);
 
-        if (paremIndeks(i) != -1 && vasem(i).x < parem(i).x)
+        if (paremIndeks(i) != -1 && vasem(i).x > parem(i).x)
             alumineIndeks = paremIndeks(i);
 
-        if (element.x < kuhi.get(alumineIndeks).x) {
+        if (element.x > kuhi.get(alumineIndeks).x) {
             vaheta(i, element, alumineIndeks, kuhi.get(alumineIndeks));
             mullinaAlla(alumineIndeks);
         }
@@ -172,7 +189,7 @@ public class TKuhi {
         int ülemineIndeks = ülemIndeks(i);
         Tipp ülemineElement = ülem(i);
 
-        if (ülemineElement.x < element.x) {
+        if (ülemineElement.x > element.x) {
             vaheta(i, element, ülemineIndeks, ülemineElement);
             mullinaÜles(ülemineIndeks);
         }
@@ -186,6 +203,12 @@ public class TKuhi {
     public void lisa(Tipp element) {
         kuhi.add(element);
         mullinaÜles(kuhi.size() - 1);
+
+        // Tuleb kõik alluvad lisada
+        if (element.v != null)
+            lisa(element.v);
+        if (element.p != null)
+            lisa(element.p);
     }
 
     /**

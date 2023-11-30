@@ -6,10 +6,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 public class Kodu6a {
     public static void main(String[] args) throws IOException {
@@ -19,7 +16,7 @@ public class Kodu6a {
 
         // Tekstifailist algse teksti lugemine
 //        String sisu = Files.readString(new File("fail.txt").toPath());
-        String sisu = "aaabbbbbc c";
+        String sisu = "abbcccddddeeeee";
 
         // Koodipuu koostamine, kodeerimine ja dekodeerimine
         Tipp koodipuu = koostaKoodipuu(sisu);
@@ -46,16 +43,28 @@ public class Kodu6a {
         System.out.println(Arrays.deepToString(sagedustabel));
 
         /* b) sagedustabeli põhjal luua loetelu ühetipulistest puudest (igas tipus on siis info kujul sümbol + selle esinemiste arv) */
-
-        Tipp[] tippud = new Tipp[sagedustabel.length];
-
+        TKuhi kuhi = new TKuhi();
+        for (int[] sümbol : sagedustabel) {
+            String s = intSõneks(sümbol[0]);
+            Tipp t = new Tipp(s);
+            t.x = sümbol[1];
+            kuhi.lisa(t);
+        }
 
         /* c) selliste puude metsast Huffmani koodipuu loomine (koodipuu lehttippudes peaks olema .info välja väärtuseks vastav sümbol) */
-        return null;
-    }
+        for (int i = 0; i < kuhi.pikkus(); i++) {
+            kuhi.kuva();
+            Tipp vahe = new Tipp("○");
+            vahe.v = kuhi.kustutaJuurtipp();
+            vahe.p = kuhi.kustutaJuurtipp();
+            vahe.x = vahe.v.x + vahe.p.x;
+            kuhi.lisa(vahe);
+        }
+        kuhi.kuva();
 
-    public static void kuva(Tipp tipp) {
-        Dendrologist.drawBinaryTree(tipp, t -> (t.info + " (" + t.x + ")"), t -> t.v, t -> t.p);
+
+
+        return null;
     }
 
     /**
@@ -77,13 +86,13 @@ public class Kodu6a {
             sagedustabel[sümbolUTF8][1]++;
         }
 
-        Arrays.sort(sagedustabel, (a, b) -> Integer.compare(b[1], a[1])); // teise elemendi järgi kehenevas järjekorras
-        int lõpp;
-        for (lõpp = 0; lõpp < sagedustabel.length; lõpp++)
-            if (sagedustabel[lõpp][1] == 0) // Kui sagedus == 0, sest see jä järgmine sümbol enam ei esine
+        Arrays.sort(sagedustabel, (a, b) -> Integer.compare(a[1], b[1])); // teise elemendi järgi
+        int algus;
+        for (algus = sagedustabel.length - 1; algus >= 0; algus--)
+            if (sagedustabel[algus][1] == 0) // Kui sagedus == 0, sest see jä järgmine sümbol enam ei esine
                 break;
 
-        return Arrays.copyOfRange(sagedustabel, 0, lõpp);
+        return Arrays.copyOfRange(sagedustabel, algus + 1, sagedustabel.length);
     }
 
     /* Teisendab UTF-8 int (määrgideta) vastavaks sümboliks sõne kujul */

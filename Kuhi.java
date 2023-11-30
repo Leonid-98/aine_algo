@@ -126,21 +126,14 @@ public class Kuhi {
      * @param i Käesoleva elemendi indeks kuhja järjendis.
      */
     public void mullinaAlla(int i) {
-        // Alla saame viia vaid siis, kui elemendil on vähemalt üks alluv olemas. Seega peab kuhjas olema vähemalt 2
-        // elementi esiteks. Teiseks saab indeks olla maksimaalselt kõige viimase elemendi ülema indeksile vastav.
-        // Neid kahte infokildu arvestades, kui indeks on indeks on mõõtmetest väljas, siis  ..
-        if (i > ülemIndeks(kuhi.size() - 1) || kuhi.size() <= 1) return; // .. sulgeme meetodi töö.
-        int element = kuhi.get(i); // Leiame, mis element i-ndal asub.
+        if (i > ülemIndeks(kuhi.size() - 1) || kuhi.size() <= 1)
+            return;
+        int element = kuhi.get(i);
+        int alumineIndeks = vasemIndeks(i);
+        if (paremIndeks(i) != -1 && vasem(i) > parem(i)) alumineIndeks = paremIndeks(i);
 
-        // Asume otsima, kumb vahetutest alluvatest on suurem.
-        int alumineIndeks = vasemIndeks(i); // Vaikimisi vasem, aga ..
-        // .. võrdleme  paremaga. Kui see eksisteerib ja on suurem, siis ..
-        if (paremIndeks(i) != -1 && vasem(i) < parem(i)) alumineIndeks = paremIndeks(i); // jätame parema meelde.
-
-        if (element < kuhi.get(alumineIndeks)) { // Vaatame, kas alluva elemendi väärtus on suurem. Kui nii, siis ..
-            // Vahetame elemendi väärtused alluvaga, et nad oleksid õigetpidi järjestatud.
+        if (element > kuhi.get(alumineIndeks)) {
             vaheta(i, element, alumineIndeks, kuhi.get(alumineIndeks));
-            // Viime allapoole viidud elementi vajadusel veel sügavamale:
             mullinaAlla(alumineIndeks);
         }
     }
@@ -158,7 +151,7 @@ public class Kuhi {
         int ülemineIndeks = ülemIndeks(i); // Leiame ülema indeksi.
         int ülemineElement = ülem(i); // Leiame abimeetodiga ülemal indeksil asuva elemendi.
 
-        if (ülemineElement < element) { // Kui ülevalpool asuv elementi on väiksem, siis on järjestus vale ja ..
+        if (ülemineElement > element) { // Kui ülevalpool asuv elementi on väiksem, siis on järjestus vale ja ..
             // Vahetame elemendi väärtused ülemaga, et nad oleksid õigetpidi järjestatud.
             vaheta(i, element, ülemineIndeks, ülemineElement);
             // Viime ülespoole viidud elementi vajadusel veel kõrgemale:
@@ -189,8 +182,6 @@ public class Kuhi {
         mullinaAlla(0); // Viime uut juurtippu mullina alla, et temast sügavamal ei leiduks suuremaid.
         return juur; // Tagastame varem meelde jäänud kustutatud juurtipu sisu.
     }
-
-    // Ülesanne 5
 
     /**
      * Muudame muutujas/järjendis "kuhi" asuvad elemendid kuhja reeglitele vastavasse järjestusse. Selle saavutamisek

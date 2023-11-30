@@ -3,17 +3,10 @@
 import java.util.PriorityQueue;
 import java.util.Comparator;
 
-class Tipp_ {
-    int item;
-    char c;
-    Tipp_ left;
-    Tipp_ right;
-}
-
 // For comparing the nodes
-class ImplementComparator implements Comparator<Tipp_> {
-    public int compare(Tipp_ x, Tipp_ y) {
-        return x.item - y.item;
+class ImplementComparator implements Comparator<Tipp> {
+    public int compare(Tipp x, Tipp y) {
+        return x.x - y.x;
     }
 }
 
@@ -25,36 +18,33 @@ public class Huffman {
         char[] charArray = {'A', 'B', 'C', 'D'};
         int[] charfreq = {5, 1, 6, 3};
 
-        PriorityQueue<Tipp_> kuhi = new PriorityQueue<Tipp_>(n, new ImplementComparator());
+        PriorityQueue<Tipp> kuhi = new PriorityQueue<Tipp>(n, new ImplementComparator());
 
         for (int i = 0; i < n; i++) {
-            Tipp_ tipp = new Tipp_();
+            Tipp tipp = new Tipp("" + charArray[i]);
+            tipp.x = charfreq[i];
 
-            tipp.c = charArray[i];
-            tipp.item = charfreq[i];
-
-            tipp.left = null;
-            tipp.right = null;
+            tipp.v = null;
+            tipp.p = null;
 
             kuhi.add(tipp);
         }
 
-        Tipp_ root = null;
+        Tipp root = null;
 
         while (kuhi.size() > 1) {
 
-            Tipp_ x = kuhi.peek();
+            Tipp x = kuhi.peek();
             kuhi.poll();
 
-            Tipp_ y = kuhi.peek();
+            Tipp y = kuhi.peek();
             kuhi.poll();
 
-            Tipp_ f = new Tipp_();
+            Tipp f = new Tipp("○");
 
-            f.item = x.item + y.item;
-            f.c = '-';
-            f.left = x;
-            f.right = y;
+            f.x = x.x + y.x;
+            f.v = x;
+            f.p = y;
             root = f;
 
             kuhi.add(f);
@@ -64,15 +54,15 @@ public class Huffman {
         printCode(root, "");
     }
 
-    public static void printCode(Tipp_ root, String s) {
-        if (root.left == null && root.right == null && Character.isLetter(root.c)) {
+    public static void printCode(Tipp root, String s) {
+        if (root.v == null && root.p == null && Character.isLetter(root.info.charAt(0))) {
 
-            System.out.println(root.c + "   |  " + s);
+            System.out.println(root.info + "   |  " + s);
 
             return;
         }
-        printCode(root.left, s + "0");
-        printCode(root.right, s + "1");
+        printCode(root.v, s + "0");
+        printCode(root.p, s + "1");
     }
 
 
