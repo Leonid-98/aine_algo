@@ -91,7 +91,6 @@ public class Kuhi {
     public void kuva() {
         Tipp tipp = teePuukuju(0);
         Dendrologist.drawBinaryTree(tipp, t -> ("[" + t.info + "], k=" + t.x), t -> t.v, t -> t.p);
-
     }
 
 
@@ -166,8 +165,6 @@ public class Kuhi {
             mullinaÜles(ülemineIndeks);
         }
     }
-
-    // Ülesanne 4
 
     /**
      * Lisab kuhja uue elemendi.
