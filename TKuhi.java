@@ -5,7 +5,7 @@
  * Kodutöö 6
  * Teema: Kahendkuhjad
  *
- * Autor: Leonid Tšigrinski, Jaan Janno (Kuhi klass täisarvude jaoks, muutsin Tippude jaoks)
+ * Autor: Leonid Tšigrinski, Jaan Janno (Arvutipraks_6.Kuhi klass täisarvude jaoks, muutsin Tippude jaoks)
  *
  *****************************************************************************/
 
@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Kuhi modifikatsioon, kus elemnedideks on Tipp. Tippu väli x on väärtsus, mille järgi sorteerime.
- * Veel üks muutus, mis ma tegin: max kuhi asemel kasutan min heap, ehk väiksem element on üles.
+ * Arvutipraks_6.Kuhi modifikatsioon, kus elemnedideks on Tipp. Tippu väli x on väärtsus, mille järgi sorteerime.
+ * Veel üks muutus, mis ma tegin: max kuhi asemel kasutan min kuhi, ehk väiksem element on üles.
  */
 public class TKuhi {
     private List<Tipp> kuhi;

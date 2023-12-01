@@ -1,3 +1,5 @@
+package Arvutipraks_6;
+
 import ee.ut.dendroloj.Dendrologist;
 
 import java.util.ArrayList;
