@@ -15,10 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Kuhi modifikatsioon, kus elemnedideks on Tipp. Tippu väli x on väärtsus, mille järgi sorteerime
+ * Kuhi modifikatsioon, kus elemnedideks on Tipp. Tippu väli x on väärtsus, mille järgi sorteerime.
+ * Veel üks muutus, mis ma tegin: max kuhi asemel kasutan min heap, ehk väiksem element on üles.
  */
 public class TKuhi {
-    private List<Tipp> kuhi; // Järjend, milles hoiame kuhja elemente.
+    private List<Tipp> kuhi;
 
     /**
      * Konstruktor, mis loob täiesti tühja kuhja.
@@ -36,29 +37,6 @@ public class TKuhi {
         this.kuhi = new ArrayList<>(algsedElemendid);
     }
 
-    /**
-     * Kuhja sisu sõnelisele kujule viimise meetod.
-     *
-     * @return Sõneline kuju sisemisest "kuhi" isendiväljast.
-     */
-    @Override
-    public String toString() {
-        StringBuilder s = new StringBuilder("[");
-        for (int i = 0; i < kuhi.size(); i++) {
-            Tipp t = kuhi.get(i);
-            s.append(t.info).append("(").append(t.x).append(")");
-
-            if (i == kuhi.size() - 1)
-                s.append("]");
-            else
-                s.append(", ");
-        }
-        return s.toString();
-    }
-
-    /**
-     * Tagastab kuhi elementide arv
-     */
     public int pikkus() {
         return kuhi.size();
     }
@@ -69,8 +47,10 @@ public class TKuhi {
      */
     public int vasemIndeks(int i) {
         int indeks = (i * 2) + 1;
-        if (indeks >= kuhi.size()) return -1;
-        else return indeks;
+        if (indeks >= kuhi.size())
+            return -1;
+        else
+            return indeks;
     }
 
     /**
@@ -79,8 +59,10 @@ public class TKuhi {
      */
     public int paremIndeks(int i) {
         int indeks = (i * 2) + 2;
-        if (indeks >= kuhi.size()) return -1;
-        else return indeks;
+        if (indeks >= kuhi.size())
+            return -1;
+        else
+            return indeks;
     }
 
     /**
@@ -88,7 +70,8 @@ public class TKuhi {
      * @return indeks käesoleva elemendi ülemale.
      */
     public int ülemIndeks(int i) {
-        if (i <= 0) return -1;
+        if (i <= 0)
+            return -1;
         return (i - 1) / 2;
     }
 
@@ -129,10 +112,10 @@ public class TKuhi {
      * @param i Elemendi indeks, mille Tippu parasjagu loomas oleme.
      * @return Tipp, mis sisaldab infoväljal kuhja i-ndat elementi, alluvad koostame rekursiooniga.
      */
-    public Tipp teePuukuju(int i) {
-        if (i <= -1 || i >= kuhi.size()) return null; // Kui indeks mõõtmetelt väljas, saame tühja puukuju.
-        Tipp vasemAlluv = teePuukuju(vasemIndeks(i)); // Ehitame puu i-nda elemendi vasema haru järgi.
-        Tipp paremAlluv = teePuukuju(paremIndeks(i)); // Ehitame puu i-nda elemendi parema haru järgi.
+    private Tipp teePuukuju(int i) {
+        if (i <= -1 || i >= kuhi.size()) return null;
+        Tipp vasemAlluv = teePuukuju(vasemIndeks(i));
+        Tipp paremAlluv = teePuukuju(paremIndeks(i));
 
         Tipp tipp = kuhi.get(i);
         tipp.v = vasemAlluv;
@@ -203,12 +186,6 @@ public class TKuhi {
     public void lisa(Tipp element) {
         kuhi.add(element);
         mullinaÜles(kuhi.size() - 1);
-
-        // Tuleb kõik alluvad lisada
-        if (element.v != null)
-            lisa(element.v);
-        if (element.p != null)
-            lisa(element.p);
     }
 
     /**

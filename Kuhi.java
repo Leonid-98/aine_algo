@@ -32,6 +32,8 @@ public class Kuhi {
         return kuhi.toString();
     }
 
+
+
     /**
      * @param i Käesoleva elemendi indeks kuhja järjendis.
      * @return indeks käesoleva elemendi vasemale harule.
@@ -99,11 +101,10 @@ public class Kuhi {
      * @return Tipp, mis sisaldab infoväljal kuhja i-ndat elementi, alluvad koostame rekursiooniga.
      */
     private Tipp teePuukuju(int i) {
-        if (i <= -1 || i >= kuhi.size()) return null; // Kui indeks mõõtmetelt väljas, saame tühja puukuju.
-        Tipp vasemAlluv = teePuukuju(vasemIndeks(i)); // Ehitame puu i-nda elemendi vasema haru järgi.
-        Tipp paremAlluv = teePuukuju(paremIndeks(i)); // Ehitame puu i-nda elemendi parema haru järgi.
-        return new Tipp("" + kuhi.get(i), vasemAlluv, paremAlluv); // Koostame tipu, infoväljal kuhja i-nda elemendi sisu ..
-        // .. ning alluvateks määrame rekursiooniga koostatud vasema ja parema alampuu juurtipud.
+        if (i <= -1 || i >= kuhi.size()) return null;
+        Tipp vasemAlluv = teePuukuju(vasemIndeks(i));
+        Tipp paremAlluv = teePuukuju(paremIndeks(i));
+        return new Tipp("" + kuhi.get(i), vasemAlluv, paremAlluv);
     }
 
     /**
@@ -115,8 +116,8 @@ public class Kuhi {
      * @param ülemineElement Teise vahetatava element.
      */
     private void vaheta(int i, int element, int ülemineIndeks, int ülemineElement) {
-        kuhi.set(i, ülemineElement); // Kirjutame esimese vahetatava indeksile teise vahetatava elemendi.
-        kuhi.set(ülemineIndeks, element); // Kirjutame teise vahetatava indeksile esimese vahetatava elemendi.
+        kuhi.set(i, ülemineElement);
+        kuhi.set(ülemineIndeks, element);
     }
 
     /**
@@ -145,16 +146,14 @@ public class Kuhi {
      * @param i Käesoleva elemendi indeks kuhja järjendis.
      */
     public void mullinaÜles(int i) {
-        if (i <= 0) return; // Üles saame liikuda vaid siis, kui tegemist ei ole juurtipuga.
-        int element = kuhi.get(i); // Leiame, mis element i-ndal asub.
+        if (i <= 0) return;
+        int element = kuhi.get(i);
 
-        int ülemineIndeks = ülemIndeks(i); // Leiame ülema indeksi.
-        int ülemineElement = ülem(i); // Leiame abimeetodiga ülemal indeksil asuva elemendi.
+        int ülemineIndeks = ülemIndeks(i);
+        int ülemineElement = ülem(i);
 
-        if (ülemineElement > element) { // Kui ülevalpool asuv elementi on väiksem, siis on järjestus vale ja ..
-            // Vahetame elemendi väärtused ülemaga, et nad oleksid õigetpidi järjestatud.
+        if (ülemineElement > element) {
             vaheta(i, element, ülemineIndeks, ülemineElement);
-            // Viime ülespoole viidud elementi vajadusel veel kõrgemale:
             mullinaÜles(ülemineIndeks);
         }
     }
@@ -165,22 +164,21 @@ public class Kuhi {
      * @param element Kuhja lisatav element.
      */
     public void lisa(int element) {
-        kuhi.add(element); // Lisame uue elemendi kuhja lõppu.
-        mullinaÜles(kuhi.size() - 1); // Viime teda mullina üles, et temast kõrgemal ei leiduks väikseimaid.
+        kuhi.add(element);
+        mullinaÜles(kuhi.size() - 1);
     }
 
     /**
      * @return Juurtipp, mis meetodi töö tulemusel kustutatakse kuhjast.
      */
     public int kustutaJuurtipp() {
-        if (kuhi.size() == 0) throw new RuntimeException(); // Tühjast kuhjast ei saa kustutada ja tagastada.
-        if (kuhi.size() == 1) return kuhi.remove(0); // Üheelemendilisest saab kustutamisel tühi kuhi.
-        // Kui on aga rohkem elemente:
-        int juur = kuhi.get(0); // Jätame juurtipu meelde.
-        int viimane = kuhi.remove(kuhi.size() - 1); // Kustutame viimase tipu ja jätame meelde.
-        kuhi.set(0, viimane); // Kustutame juurtipu, asendades tema sisu viimase elemendi sisuga.
-        mullinaAlla(0); // Viime uut juurtippu mullina alla, et temast sügavamal ei leiduks suuremaid.
-        return juur; // Tagastame varem meelde jäänud kustutatud juurtipu sisu.
+        if (kuhi.size() == 0) throw new RuntimeException();
+        if (kuhi.size() == 1) return kuhi.remove(0);
+        int juur = kuhi.get(0);
+        int viimane = kuhi.remove(kuhi.size() - 1);
+        kuhi.set(0, viimane);
+        mullinaAlla(0);
+        return juur;
     }
 
     /**
@@ -188,12 +186,8 @@ public class Kuhi {
      * tahame viia kõiki tippe mullina allapoole, alustades sügavamatest tippudest ja liikudes ülespoole.
      */
     public void kuhjasta() {
-        // Leiame, mis on viimane tipp, mida on mõtet mullina alla viima asuda. Tipud, millel alluvaid ei ole, ei oleks
-        // vaja vaevuda allapoole viia. Seega leiame, mis on viimase tipu ülem, tema ülem ongi viimane tipp, millel on
-        // olemas alluv.
         int viimaneVahetipp = ülemIndeks(kuhi.size() - 1);
-        for (int i = viimaneVahetipp; i >= 0; i--) // Käikme viimasest vahetipust kuni juurtipuni indeksid läbi.
-            mullinaAlla(i); // Viime iga indeksi elemendid mulline allapoole.
-        // Peale tsüklit on kuhja järjend kuhja reeglitele vastaval kujul.
+        for (int i = viimaneVahetipp; i >= 0; i--)
+            mullinaAlla(i);
     }
 }

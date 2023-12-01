@@ -1,5 +1,7 @@
 // Huffman Coding in Java
 
+import ee.ut.dendroloj.Dendrologist;
+
 import java.util.PriorityQueue;
 import java.util.Comparator;
 
@@ -30,28 +32,23 @@ public class Huffman {
             kuhi.add(tipp);
         }
 
-        Tipp root = null;
-
+        Tipp juur = null;
         while (kuhi.size() > 1) {
-
-            Tipp x = kuhi.peek();
+            Tipp vasak = kuhi.peek();
             kuhi.poll();
-
-            Tipp y = kuhi.peek();
+            Tipp parem = kuhi.peek();
             kuhi.poll();
-
-            Tipp f = new Tipp("○");
-
-            f.x = x.x + y.x;
-            f.v = x;
-            f.p = y;
-            root = f;
-
+            Tipp f = new Tipp(null);
+            f.x = vasak.x + parem.x;
+            f.v = vasak;
+            f.p = parem;
+            juur = f;
             kuhi.add(f);
         }
+        Dendrologist.drawBinaryTree(juur, t -> ("[" + t.info + "], k=" + t.x), t -> t.v, t -> t.p);
         System.out.println(" Char | Huffman code ");
         System.out.println("--------------------");
-        printCode(root, "");
+        printCode(juur, "");
     }
 
     public static void printCode(Tipp root, String s) {
