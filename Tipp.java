@@ -1,16 +1,19 @@
-public class Tipp {
-    String info;
-    Tipp v;
-    Tipp p;
-    int x; // abiväli
+import java.util.ArrayList;
+import java.util.List;
 
-    Tipp(String info, Tipp v, Tipp p) {
+class Tipp {
+    final String info; // tipu info
+    final List<Kaar> kaared = new ArrayList<>(); // sellest tipust väljuvate kaarte loetelu
+    int x = 0; // abiväli täisarvu hoidmiseks
+    int y = 0; // teine abiväli täisarvu hoidmiseks
+    Tipp z = null; // abiväli tipu hoidmiseks
+
+    public Tipp(String info) {
         this.info = info;
-        this.v = v;
-        this.p = p;
     }
 
-    Tipp(String info) {
-        this.info = info;
+    @Override
+    public String toString() {
+        return "'" + info + '\'' + (z == null ? "" : " <- (" + z.info + ")");
     }
 }

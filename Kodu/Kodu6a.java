@@ -1,4 +1,4 @@
-/*****************************************************************************
+package Kodu; /*****************************************************************************
  * Algoritmid ja andmestruktuurid. LTAT.03.005
  * 2023/2024 sügissemester
  *
@@ -34,8 +34,8 @@ public class Kodu6a {
         }
         System.out.println();
 
-        FailiSisu.kirjutaFaili(new File("kodeeritud.dat"), koodipuu, bitid);
-        FailiSisu failiSisu = FailiSisu.loeFailist(new File("kodeeritud.dat"));
+        FailiSisu.kirjutaFaili(new File("Kodu/kodeeritud.dat"), koodipuu, bitid);
+        FailiSisu failiSisu = FailiSisu.loeFailist(new File("Kodu/kodeeritud.dat"));
 
         String dekodeeritud = dekodeeri(failiSisu.koodipuu, failiSisu.bitid);
         System.out.println("dekodeeritud:\n" + dekodeeritud);
