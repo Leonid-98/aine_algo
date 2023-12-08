@@ -13,29 +13,41 @@ import java.util.*;
 
 public class Kodu7a {
     public static void main(String[] args) {
-//        Tipp a = new Tipp("A");
-//        Tipp b = new Tipp("B");
-//        Tipp c = new Tipp("C");
-//        Kaar ab = new Kaar(a, b, 5);
-//        Kaar ac = new Kaar(a, c, 3);
-//        a.kaared.add(ab);
-//        a.kaared.add(ac);
-//        List<Tipp> graaf =Arrays.asList(a, b, c);
-//        Abi.kuvaGraaf(graaf);
 
-        List<Tipp> graaf = Abi.läbimänguslaidiGraaf1();
+        List<Tipp> graaf = Abi.läbimänguslaidiGraaf2();
         Abi.kuvaGraafKaaludeta(graaf);
 
-        Set<String> töödeldud = new HashSet<>();
-        Queue<String> järgmised = new ArrayDeque<>();
-        for (Tipp tipp: graaf) {
-            for (Kaar kaar: tipp.kaared) {
-                System.out.println(kaar.alg + "->" + kaar.lõpp);
-            }
-            System.out.println();
-        }
+//        Set<String> töödeldud = new HashSet<>();
+//        Queue<String> järgmised = new ArrayDeque<>();
+//        for (Tipp tipp: graaf) {
+//            for (Kaar kaar: tipp.kaared) {
+//                System.out.println(kaar.alg + "->" + kaar.lõpp);
+//            }
+//            System.out.println();
+//        }
 
+        Set<Tipp> töödeldud = new HashSet<>();
+        Queue<Tipp> järgmised = new ArrayDeque<>();
+
+        Tipp algtipp = Abi.leiaTipp("B", graaf);
+
+        järgmised.add(algtipp);
+        töödeldud.add(algtipp);
+
+        while (!järgmised.isEmpty()) {
+            Tipp vaadeldav = järgmised.poll();
+            System.out.print(vaadeldav.info + " ");
+
+            for (Kaar kaar : vaadeldav.kaared) {
+                Tipp naaber = kaar.lõpp;
+                if (!töödeldud.contains(naaber)) {
+                    järgmised.add(naaber);
+                    töödeldud.add(naaber);
+                }
+            }
+        }
     }
+
 
     public static String[] jõuame(String lähtelinn, int x, int k, String[] linnad, int[][] M) {
         return null;

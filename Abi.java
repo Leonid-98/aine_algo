@@ -118,8 +118,50 @@ public class Abi {
         return graaf;
     }
 
-    private static void ühenda(String a, String b, List<Tipp> graaf) {
+    public static List<Tipp> läbimänguslaidiGraaf2() {
+        List<Tipp> graaf = new ArrayList<>();
+        for (char tähis : "ABCDEFGH".toCharArray())
+            graaf.add(new Tipp("" + tähis));
+
+        ühenda("A", "G", graaf);
+        ühenda("A", "H", graaf);
+
+        ühenda("G", "A", graaf);
+        ühenda("G", "F", graaf);
+        ühenda("G", "H", graaf);
+
+        ühenda("H", "A", graaf);
+        ühenda("H", "F", graaf);
+        ühenda("H", "G", graaf);
+
+        ühenda("F", "E", graaf);
+        ühenda("F", "G", graaf);
+        ühenda("F", "H", graaf);
+
+        ühenda("E", "B", graaf);
+        ühenda("E", "C", graaf);
+        ühenda("E", "D", graaf);
+        ühenda("E", "F", graaf);
+
+        ühenda("C", "B", graaf);
+        ühenda("C", "E", graaf);
+
+        ühenda("B", "C", graaf);
+        ühenda("B", "D", graaf);
+        ühenda("B", "E", graaf);
+
+        ühenda("D", "B", graaf);
+        ühenda("D", "E", graaf);
+
+        return graaf;
+    }
+
+    public static void ühenda(String a, String b, List<Tipp> graaf) {
         leiaTipp(a, graaf).kaared.add(new Kaar(leiaTipp(a, graaf), leiaTipp(b, graaf), 1));
+    }
+    public static void ühendaSuunamata(String a, String b, List<Tipp> graaf) {
+        leiaTipp(a, graaf).kaared.add(new Kaar(leiaTipp(a, graaf), leiaTipp(b, graaf), 1));
+        leiaTipp(a, graaf).kaared.add(new Kaar(leiaTipp(b, graaf), leiaTipp(a, graaf), 1));
     }
 
     public static List<Tipp> juhuslikGraaf(int tippe, double ühendatuseTõenäosus) {
