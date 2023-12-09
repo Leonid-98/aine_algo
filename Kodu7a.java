@@ -1,5 +1,3 @@
-import java.util.*;
-
 /*****************************************************************************
  * Algoritmid ja andmestruktuurid. LTAT.03.005
  * 2023/2024 sügissemester
@@ -11,20 +9,14 @@ import java.util.*;
  *
  *****************************************************************************/
 
+import java.util.*;
+
+
 public class Kodu7a {
     public static void main(String[] args) {
 
-        List<Tipp> graaf = Abi.läbimänguslaidiGraaf2();
-        Abi.kuvaGraafKaaludeta(graaf);
-
-//        Set<String> töödeldud = new HashSet<>();
-//        Queue<String> järgmised = new ArrayDeque<>();
-//        for (Tipp tipp: graaf) {
-//            for (Kaar kaar: tipp.kaared) {
-//                System.out.println(kaar.alg + "->" + kaar.lõpp);
-//            }
-//            System.out.println();
-//        }
+        List<Tipp> graaf = Abi.testGraaf1(); //Abi.dijkstraGraaf1();
+        Abi.kuvaGraaf(graaf);
 
         Set<Tipp> töödeldud = new HashSet<>();
         Queue<Tipp> järgmised = new ArrayDeque<>();

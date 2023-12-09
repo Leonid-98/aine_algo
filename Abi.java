@@ -101,19 +101,19 @@ public class Abi {
         for (char tähis : "ABCDEFGH".toCharArray())
             graaf.add(new Tipp("" + tähis));
 
-        ühenda("A", "B", graaf);
-        ühenda("A", "C", graaf);
-        ühenda("A", "D", graaf);
-        ühenda("B", "C", graaf);
-        ühenda("B", "E", graaf);
-        ühenda("C", "E", graaf);
-        ühenda("D", "C", graaf);
-        ühenda("D", "F", graaf);
-        ühenda("D", "G", graaf);
-        ühenda("E", "H", graaf);
-        ühenda("F", "C", graaf);
-        ühenda("G", "H", graaf);
-        ühenda("H", "F", graaf);
+        ühenda("A", "B", 1, graaf);
+        ühenda("A", "C", 200, graaf);
+        ühenda("A", "D", 3, graaf);
+        ühenda("B", "C", 40, graaf);
+        ühenda("B", "E", 1, graaf);
+        ühenda("C", "E", 6, graaf);
+        ühenda("D", "C", 22, graaf);
+        ühenda("D", "F", 9, graaf);
+        ühenda("D", "G", 11, graaf);
+        ühenda("E", "H", 1, graaf);
+        ühenda("F", "C", 1, graaf);
+        ühenda("G", "H", 5, graaf);
+        ühenda("H", "F", 1, graaf);
 
         return graaf;
     }
@@ -156,13 +156,57 @@ public class Abi {
         return graaf;
     }
 
+    public static List<Tipp> dijkstraGraaf1() {
+        List<Tipp> graaf = new ArrayList<>();
+        for (char tähis : "ABCDEFGHI".toCharArray())
+            graaf.add(new Tipp("" + tähis));
+
+        ühenda("A", "B", 3, graaf);
+        ühenda("A", "C", 2, graaf);
+
+        ühenda("B", "C", 7, graaf);
+        ühenda("B", "I", 7, graaf);
+        ühenda("B", "F", 2, graaf);
+
+        ühenda("C", "D", 2, graaf);
+        ühenda("C", "H", 8, graaf);
+        ühenda("C", "G", 5, graaf);
+
+        ühenda("D", "A", 7, graaf);
+        ühenda("D", "E", 4, graaf);
+
+        ühenda("E", "A", 5, graaf);
+        ühenda("E", "B", 5, graaf);
+
+        ühenda("F", "H", 6, graaf);
+
+        ühenda("G", "I", 2, graaf);
+
+        return graaf;
+    }
+
+    public static List<Tipp> testGraaf1() {
+        List<Tipp> graaf = new ArrayList<>();
+        for (char tähis : "ABCDE".toCharArray())
+            graaf.add(new Tipp("" + tähis));
+
+        ühenda("A", "E", 2, graaf);
+        ühenda("A", "B", 1, graaf);
+        ühenda("B", "C", 1, graaf);
+        ühenda("C", "D", 1, graaf);
+        ühenda("D", "E", 1, graaf);
+
+        return graaf;
+    }
+
     public static void ühenda(String a, String b, List<Tipp> graaf) {
         leiaTipp(a, graaf).kaared.add(new Kaar(leiaTipp(a, graaf), leiaTipp(b, graaf), 1));
     }
-    public static void ühendaSuunamata(String a, String b, List<Tipp> graaf) {
-        leiaTipp(a, graaf).kaared.add(new Kaar(leiaTipp(a, graaf), leiaTipp(b, graaf), 1));
-        leiaTipp(a, graaf).kaared.add(new Kaar(leiaTipp(b, graaf), leiaTipp(a, graaf), 1));
+
+    public static void ühenda(String a, String b, int kaal, List<Tipp> graaf) {
+        leiaTipp(a, graaf).kaared.add(new Kaar(leiaTipp(a, graaf), leiaTipp(b, graaf), kaal));
     }
+
 
     public static List<Tipp> juhuslikGraaf(int tippe, double ühendatuseTõenäosus) {
         return juhuslikGraaf(tippe, ühendatuseTõenäosus, 1, 1);

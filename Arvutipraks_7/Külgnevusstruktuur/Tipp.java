@@ -1,3 +1,5 @@
+package Arvutipraks_7.Külgnevusstruktuur;
+
 import java.util.ArrayList;
 import java.util.List;
 

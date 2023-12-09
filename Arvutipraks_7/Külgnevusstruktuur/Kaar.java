@@ -1,3 +1,5 @@
+package Arvutipraks_7.Külgnevusstruktuur;
+
 class Kaar {
     final Tipp alg; // kaare lähtetipp
     final Tipp lõpp; // kaare suubumistipp
